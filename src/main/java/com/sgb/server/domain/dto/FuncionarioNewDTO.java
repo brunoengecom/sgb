@@ -3,19 +3,42 @@ package com.sgb.server.domain.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sgb.server.domain.enums.EnumStatus;
 
 public class FuncionarioNewDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@NotEmpty
+	@NotNull
+	@Length(min = 10 ,max = 40)
 	private String nome;
+	@NotEmpty
+	@NotNull
 	private String email;
+	@NotNull
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date dataNasc;
+	@NotEmpty
+	@NotNull
+	@CPF
 	private String cpf;
+	@NotEmpty
+	@NotNull
 	private EnumStatus status;
+	@NotNull
 	private Integer turma;
+	@NotNull
 	private Integer matricula;
+	@NotNull
 	private String senha;
+	@NotNull
 	private String cargo;
 	
 	public String getSenha() {

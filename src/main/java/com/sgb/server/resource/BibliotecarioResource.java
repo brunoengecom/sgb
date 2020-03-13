@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sgb.server.domain.Bibliotecario;
+import com.sgb.server.domain.Usuario;
 import com.sgb.server.service.BibliotecarioService;
 
 @RestController
@@ -39,9 +40,9 @@ public class BibliotecarioResource {
 	
 	@RequestMapping(method = RequestMethod.POST)
 //	@requestBody exige que no corpo da requisição tenha um objeto do tipo do parametro
-	public ResponseEntity<Void> save(@RequestBody Bibliotecario bibliotecario) {
-		service.save(bibliotecario);
-		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/bibliotecario/{id}").buildAndExpand(bibliotecario.getId()).toUri();
+	public ResponseEntity<Void> save(@RequestBody Usuario usuario) {
+		service.save(usuario);
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/bibliotecario/{id}").buildAndExpand(usuario.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 //	
