@@ -1,4 +1,4 @@
-package com.sgb.server.domain;
+wpackage com.sgb.server.domain;
 
 import java.io.Serializable;
 import java.util.HashSet;
