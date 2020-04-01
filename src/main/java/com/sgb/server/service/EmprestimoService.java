@@ -53,9 +53,14 @@ public class EmprestimoService {
 		emprestimo.setAquisicao(new Date());
 		emprestimo.setUsuario(usuario);
 		emprestimo.setPatrimonio(patrimonio);
+		emprestimo.setDevolucao(null);
 		if(usuario.getRoles().contains(EnumRoles.FUNCIONARIO) && usuario.getStatus() == EnumStatus.ATIVO) {
 			PrazoEmprestimo prazoEmprestimo = prazoEmprestimoService.findFirstByEnumRoleOrderByIdDesc(EnumRoles.FUNCIONARIO);
-			emprestimo.setPrazoEmprestimo(prazoEmprestimo);
+			if(prazoEmprestimo != null) {
+				emprestimo.setPrazoEmprestimo(prazoEmprestimo);
+			}else {
+				throw new EmprestimoException("Nenhum prazo de emprestimo cadatrado para esse usuário!");
+			}
 		}else if(usuario.getRoles().contains(EnumRoles.ALUNO)) {
 			Date dataAtual = new Date();
 			PrazoEmprestimo prazoEmprestimo = null;
@@ -86,6 +91,14 @@ public class EmprestimoService {
 	public Page<Emprestimo> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
 		return repository.findAll(pageRequest);		
+	}
+
+	public boolean isEmprestimoAtivo(Patrimonio patrimonio) {
+		Patrimonio p = repository.isEmprestimoAtivo(patrimonio.getId());
+		if(p != null) {
+			return true;
+		}
+		return false;
 	}
 
 }

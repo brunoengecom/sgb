@@ -2,7 +2,7 @@ package com.sgb.server.domain.enums;
 
 public enum EnumRoles {
 
-	FUNCIONARIO(1, "Funcionário"), ALUNO(2, "Aluno"),SUPERADMIN(3,"Administrador do Sistema"),BIBLIOTECARIO(4,"Bibliotecario");
+	FUNCIONARIO(1, "Funcionário"), ALUNO(2, "Aluno"),SUPERADMIN(3,"Administrador do Sistema"),BIBLIOTECARIO(4,"BIBLIOTECARIO");
 
 	private Integer id;
 	private String descricao;

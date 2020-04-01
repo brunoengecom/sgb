@@ -63,7 +63,7 @@ public class PrazoEmprestimoService {
 	}
 
 	public PrazoEmprestimo findFirstByEnumRoleOrderByIdDesc(EnumRoles role) {
-		return repository.findFirstByEnumRoleOrderByIdDesc(role);
+		return repository.findTopByEnumRoleOrderByIdDesc(role);
 	}
 
 }

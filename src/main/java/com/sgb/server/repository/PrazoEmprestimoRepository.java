@@ -9,6 +9,6 @@ import com.sgb.server.domain.enums.EnumRoles;
 @Repository
 public interface PrazoEmprestimoRepository extends JpaRepository<PrazoEmprestimo, Integer>{
 
-	PrazoEmprestimo findFirstByEnumRoleOrderByIdDesc(EnumRoles role);
+	PrazoEmprestimo findTopByEnumRoleOrderByIdDesc(EnumRoles role);
 	
 }

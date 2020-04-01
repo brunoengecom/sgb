@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,9 +48,9 @@ public class EmprestimoResource {
 		Page<Emprestimo> list = service.findPage(page,linesPerPage,orderBy,direction);
 		return ResponseEntity.ok().body(list);
 	}
-	
-	@RequestMapping(method = RequestMethod.POST)
 //	@requestBody exige que no corpo da requisição tenha um objeto do tipo do parametro
+	@RequestMapping(method = RequestMethod.POST)
+	
 	public ResponseEntity<Void> save(@Valid @RequestBody EmprestimoNewDTO dto) {
 		Emprestimo emprestimo = new Emprestimo();
 		Usuario usuario = new Usuario();
