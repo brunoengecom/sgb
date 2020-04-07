@@ -38,8 +38,33 @@ public class Emprestimo implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "patrimonio_id")
 	private Patrimonio patrimonio;
-
 	
+	@ManyToOne
+	@JoinColumn(name = "bibliotecario_emprestimo")
+	private Bibliotecario bibliotecarioEmprestimo;
+	
+	@ManyToOne
+	@JoinColumn(name = "bibliotecario_devolucao")
+	private Bibliotecario bibliotecarioDevolucao;
+	
+	@
+	
+	public Bibliotecario getBibliotecarioDevolucao() {
+		return bibliotecarioDevolucao;
+	}
+
+	public void setBibliotecarioDevolucao(Bibliotecario bibliotecarioDevolucao) {
+		this.bibliotecarioDevolucao = bibliotecarioDevolucao;
+	}
+
+	public Bibliotecario getBibliotecarioEmprestimo() {
+		return bibliotecarioEmprestimo;
+	}
+
+	public void setBibliotecarioEmprestimo(Bibliotecario bibliotecario) {
+		this.bibliotecarioEmprestimo = bibliotecario;
+	}
+
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;

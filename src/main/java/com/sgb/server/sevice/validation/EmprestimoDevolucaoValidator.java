@@ -9,12 +9,12 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sgb.server.domain.Patrimonio;
-import com.sgb.server.domain.dto.EmprestimoNewDTO;
+import com.sgb.server.dto.DevolucaoNewDTO;
 import com.sgb.server.service.EmprestimoService;
 import com.sgb.server.service.PatrimonioService;
 import com.sgb.server.sevice.exception.FieldMessage;
 
-public class EmprestimoInsertValidator implements ConstraintValidator<EmprestimoInsert, EmprestimoNewDTO> {
+public class EmprestimoDevolucaoValidator implements ConstraintValidator<EmprestimoDevolucao, DevolucaoNewDTO> {
 	@Autowired
 	private PatrimonioService patrimonioService;
 
@@ -22,19 +22,19 @@ public class EmprestimoInsertValidator implements ConstraintValidator<Emprestimo
 	private EmprestimoService emprestimoService;
 
 	@Override
-	public void initialize(EmprestimoInsert constraintAnnotation) {
+	public void initialize(EmprestimoDevolucao constraintAnnotation) {
 	}
 
 	@Override
-	public boolean isValid(EmprestimoNewDTO value, ConstraintValidatorContext context) {
+	public boolean isValid(DevolucaoNewDTO value, ConstraintValidatorContext context) {
 		List<FieldMessage> list = new ArrayList<>();
 		Patrimonio patrimonio = patrimonioService.findByNumero(value.getPatrimonio());
 
 		if (patrimonio == null) {
 			list.add(new FieldMessage("patrimonio", "Patrimonio não encontrado!"));
 		} else {
-			if (emprestimoService.isEmprestimoAtivo(patrimonio)) {
-				list.add(new FieldMessage("patrimonio", "O Patrimonio inserido já está emprestado!"));
+			if (!emprestimoService.isEmprestimoAtivo(patrimonio)) {
+				list.add(new FieldMessage("patrimonio", "O Patrimonio inserido não está emprestado!"));
 			}
 		}
 		for (FieldMessage e : list) {

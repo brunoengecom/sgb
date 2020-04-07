@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
 
+import com.sgb.server.domain.Bibliotecario;
 import com.sgb.server.domain.Emprestimo;
 import com.sgb.server.domain.Matricula;
 import com.sgb.server.domain.Patrimonio;
@@ -18,6 +20,7 @@ import com.sgb.server.domain.Usuario;
 import com.sgb.server.domain.enums.EnumRoles;
 import com.sgb.server.domain.enums.EnumStatus;
 import com.sgb.server.repository.EmprestimoRepository;
+import com.sgb.server.security.UserSS;
 import com.sgb.server.sevice.exception.EmprestimoException;
 import com.sgb.server.sevice.exception.ObjectNotFoundException;
 
@@ -34,7 +37,9 @@ public class EmprestimoService {
 	private EmprestimoRepository repository;
 	@Autowired
 	private PatrimonioService patrimonioService;
-
+	@Autowired
+	private BibliotecarioService bibliotecarioService;
+	
 	public List<Emprestimo> findAll() {
 		return repository.findAll();
 	}
@@ -47,6 +52,19 @@ public class EmprestimoService {
 	}
 
 	public void save(Emprestimo emprestimo) {
+		UserSS user = UserService.authenticated();
+		if(user != null) {
+			try {
+				Bibliotecario bibliotecario = bibliotecarioService.findById(user.getId());
+				if(bibliotecario == null || bibliotecario.getStatus() != EnumStatus.ATIVO) {
+					throw new AuthorizationServiceException("Você não tem autorização para esta solicitação");
+				}
+				emprestimo.setBibliotecarioEmprestimo(bibliotecario);
+				
+			} catch (ObjectNotFoundException e) {
+				throw new AuthorizationServiceException("Você não tem autorização para esta solicitação");
+			}
+		}
 		Usuario usuario = usuarioService.findById(emprestimo.getUsuario().getId());
 		Patrimonio patrimonio = patrimonioService.findByNumero(emprestimo.getPatrimonio().getNumero());
 		emprestimo.setId(null);
@@ -77,6 +95,7 @@ public class EmprestimoService {
 		}else {
 			throw new EmprestimoException("Este usuario não está apto a fazer emprestimos");
 		}
+		
 		repository.save(emprestimo);
 
 	}
@@ -94,11 +113,36 @@ public class EmprestimoService {
 	}
 
 	public boolean isEmprestimoAtivo(Patrimonio patrimonio) {
-		Patrimonio p = repository.isEmprestimoAtivo(patrimonio.getId());
-		if(p != null) {
-			return true;
+		List<Emprestimo> p = repository.isEmprestimoAtivo(patrimonio.getId());
+		if(p == null || p.isEmpty()) {
+			return false;
 		}
-		return false;
+		return true;
+	}
+
+	public void devolucao(Emprestimo emprestimo) {
+		Patrimonio patrimonio = patrimonioService.findByNumero(emprestimo.getPatrimonio().getNumero());
+		List <Emprestimo> p = repository.isEmprestimoAtivo(patrimonio.getId());
+		emprestimo = p.get(0);
+		
+		UserSS user = UserService.authenticated();
+		if(user != null) {
+			try {
+				Bibliotecario bibliotecario = bibliotecarioService.findById(user.getId());
+				if(bibliotecario == null || bibliotecario.getStatus() != EnumStatus.ATIVO) {
+					throw new AuthorizationServiceException("Você não tem autorização para esta solicitação");
+				}
+				emprestimo.setBibliotecarioDevolucao(bibliotecario);
+				
+			} catch (ObjectNotFoundException e) {
+				throw new AuthorizationServiceException("Você não tem autorização para esta solicitação");
+			}
+		}
+		
+		emprestimo.setDevolucao(new Date());
+		
+		repository.save(emprestimo);
+		
 	}
 
 }

@@ -21,17 +21,17 @@ public class PrazoEmprestimo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Integer prazo;
-	private EnumRoles enumRole;
+	private Integer enumRole;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "prazoEmprestimo")
 	private Set<Emprestimo> emprestimos = new HashSet<>();
 	
 	public EnumRoles getEnumRole() {
-		return enumRole;
+		return EnumRoles.toEnum(enumRole);
 	}
 	public void setEnumRole(EnumRoles enumRole) {
-		this.enumRole = enumRole;
+		this.enumRole = enumRole.getId();
 	}
 	public Integer getId() {
 		return id;

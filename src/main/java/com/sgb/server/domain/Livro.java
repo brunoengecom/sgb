@@ -32,6 +32,15 @@ public class Livro implements Serializable {
 	private Integer edicao;
 	private Integer ano;
 	private String isbn;
+	private Double valor;
+	
+	public Double getValor() {
+		return valor;
+	}
+
+	public void setValor(Double valor) {
+		this.valor = valor;
+	}
 
 	@ManyToOne
 	@JoinColumn(name = "editora_id")

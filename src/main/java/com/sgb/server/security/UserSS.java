@@ -38,6 +38,10 @@ public class UserSS implements UserDetails {
 	public String getPassword() {
 		return senha;
 	}
+	
+	public Integer getId() {
+		return id;
+	}
 
 	@Override
 	public String getUsername() {

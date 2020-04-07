@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +19,7 @@ import com.sgb.server.domain.Emprestimo;
 import com.sgb.server.domain.Patrimonio;
 import com.sgb.server.domain.Usuario;
 import com.sgb.server.domain.dto.EmprestimoNewDTO;
+import com.sgb.server.dto.DevolucaoNewDTO;
 import com.sgb.server.service.EmprestimoService;
 import com.sgb.server.service.UsuarioService;
 
@@ -64,6 +64,14 @@ public class EmprestimoResource {
 		service.save(emprestimo);
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/emprestimo/{idEmprestimo}").buildAndExpand(emprestimo.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+	}
+	public ResponseEntity<Void> devolucao(@Valid @RequestBody DevolucaoNewDTO dto) {
+		Emprestimo emprestimo = new Emprestimo();
+		Patrimonio patrimonio = new Patrimonio();
+		patrimonio.setNumero(dto.getPatrimonio());
+		emprestimo.setPatrimonio(patrimonio);
+		
+		service.devolucao(emprestimo);
 	}
 	
 	@RequestMapping(method = RequestMethod.DELETE,value = "/{idEmprestimo}")
