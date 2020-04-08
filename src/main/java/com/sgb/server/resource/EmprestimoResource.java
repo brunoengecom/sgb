@@ -1,6 +1,7 @@
 package com.sgb.server.resource;
 
 import java.net.URI;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sgb.server.domain.Emprestimo;
+import com.sgb.server.domain.Multa;
 import com.sgb.server.domain.Patrimonio;
 import com.sgb.server.domain.Usuario;
 import com.sgb.server.domain.dto.EmprestimoNewDTO;
@@ -57,7 +59,6 @@ public class EmprestimoResource {
 		Patrimonio patrimonio = new Patrimonio();
 		usuario.setId(dto.getUsuario());
 		patrimonio.setNumero(dto.getPatrimonio());
-		
 		emprestimo.setUsuario(usuario);
 		emprestimo.setPatrimonio(patrimonio);
 		
@@ -65,13 +66,16 @@ public class EmprestimoResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/emprestimo/{idEmprestimo}").buildAndExpand(emprestimo.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	public ResponseEntity<Void> devolucao(@Valid @RequestBody DevolucaoNewDTO dto) {
+	@RequestMapping(method = RequestMethod.POST,value = "/devolucao")
+	public ResponseEntity<Set<Multa>> devolucao(@Valid @RequestBody DevolucaoNewDTO dto) {
 		Emprestimo emprestimo = new Emprestimo();
 		Patrimonio patrimonio = new Patrimonio();
 		patrimonio.setNumero(dto.getPatrimonio());
 		emprestimo.setPatrimonio(patrimonio);
+		emprestimo.setMultas(dto.getMultas());
 		
 		service.devolucao(emprestimo);
+		return ResponseEntity.ok().body(emprestimo.getMultas());
 	}
 	
 	@RequestMapping(method = RequestMethod.DELETE,value = "/{idEmprestimo}")

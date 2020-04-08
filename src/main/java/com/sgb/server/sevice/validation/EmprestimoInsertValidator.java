@@ -29,6 +29,13 @@ public class EmprestimoInsertValidator implements ConstraintValidator<Emprestimo
 	public boolean isValid(EmprestimoNewDTO value, ConstraintValidatorContext context) {
 		List<FieldMessage> list = new ArrayList<>();
 		Patrimonio patrimonio = patrimonioService.findByNumero(value.getPatrimonio());
+		Integer valor = emprestimoService.countEmprestimosAtivos(value.getUsuario());
+
+		if (valor == null) {
+			list.add(new FieldMessage("usuario", "Usuario não encontrado"));
+		} else if (valor >= 3) {
+			list.add(new FieldMessage("usuario", "Limite de emprestimos excedido pelo usuario"));
+		}
 
 		if (patrimonio == null) {
 			list.add(new FieldMessage("patrimonio", "Patrimonio não encontrado!"));

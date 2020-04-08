@@ -2,6 +2,7 @@ package com.sgb.server.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,9 +33,8 @@ public class MultaService {
 																												// retorna
 	}
 
-	public void save(Multa multa) {
-		multa.setId(null);
-		repository.save(multa);
+	public void save(Set<Multa> set) {
+		repository.saveAll(set);
 
 	}
 

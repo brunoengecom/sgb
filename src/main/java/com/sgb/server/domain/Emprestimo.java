@@ -30,7 +30,7 @@ public class Emprestimo implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date devolucao;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "prazoEmprestimo_id")
 	private PrazoEmprestimo prazoEmprestimo;
@@ -38,17 +38,22 @@ public class Emprestimo implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "patrimonio_id")
 	private Patrimonio patrimonio;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "bibliotecario_emprestimo")
 	private Bibliotecario bibliotecarioEmprestimo;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "bibliotecario_devolucao")
 	private Bibliotecario bibliotecarioDevolucao;
-	
-	@
-	
+
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
+
+	@OneToMany(mappedBy = "emprestimo")
+	private Set<Multa> multas = new HashSet<>();
+
 	public Bibliotecario getBibliotecarioDevolucao() {
 		return bibliotecarioDevolucao;
 	}
@@ -64,13 +69,6 @@ public class Emprestimo implements Serializable {
 	public void setBibliotecarioEmprestimo(Bibliotecario bibliotecario) {
 		this.bibliotecarioEmprestimo = bibliotecario;
 	}
-
-	@ManyToOne
-	@JoinColumn(name = "usuario_id")
-	private Usuario usuario;
-	
-	@OneToMany(mappedBy = "emprestimo")
-	private Set<Multa> multas = new HashSet<>();
 
 	public Integer getId() {
 		return id;

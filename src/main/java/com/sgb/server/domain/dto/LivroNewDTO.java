@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.sgb.server.sevice.validation.LivroInsert;
+
 @LivroInsert
 public class LivroNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -18,14 +19,17 @@ public class LivroNewDTO implements Serializable {
 	@NotNull(message = "Preenchimento Obrigatório")
 	private Integer ano;
 	@NotEmpty(message = "Preenchimento Obrigatório")
+	@NotNull(message = "Preenchimento Obrigatório")
 	private String isbn;
-	
+	@NotNull(message = "Preenchimento Obrigatório")
+	private Double valor;
+
 	@NotNull(message = "Preenchimento Obrigatório")
 	private Integer editora;
-	
+
 	@NotNull(message = "Preenchimento Obrigatório")
 	private Integer areaDeConhecimento;
-	
+
 	@NotEmpty(message = "Preenchimento Obrigatório")
 	private List<String> autores = new ArrayList<>();
 
@@ -83,6 +87,14 @@ public class LivroNewDTO implements Serializable {
 
 	public void setAreaDeConhecimento(Integer areaDeConhecimento) {
 		this.areaDeConhecimento = areaDeConhecimento;
+	}
+
+	public Double getValor() {
+		return valor;
+	}
+
+	public void setValor(Double valor) {
+		this.valor = valor;
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,16 +32,9 @@ public class Livro implements Serializable {
 	private String nome;
 	private Integer edicao;
 	private Integer ano;
+	@Column(unique = true)
 	private String isbn;
 	private Double valor;
-	
-	public Double getValor() {
-		return valor;
-	}
-
-	public void setValor(Double valor) {
-		this.valor = valor;
-	}
 
 	@ManyToOne
 	@JoinColumn(name = "editora_id")
@@ -134,4 +128,11 @@ public class Livro implements Serializable {
 		this.isbn = isbn;
 	}
 
+	public Double getValor() {
+		return valor;
+	}
+
+	public void setValor(Double valor) {
+		this.valor = valor;
+	}
 }

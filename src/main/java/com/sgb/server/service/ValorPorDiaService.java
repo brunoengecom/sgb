@@ -51,4 +51,9 @@ public class ValorPorDiaService {
 		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
 		return repository.findAll(pageRequest);		
 	}
+
+	public ValorPorDia getValorAtual() {
+		Page<ValorPorDia> valorPaginado = this.findPage(0, 1, "id", "DESC");
+		return valorPaginado.getContent().get(0);
+	}
 }

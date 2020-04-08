@@ -7,5 +7,5 @@ import com.sgb.server.domain.Livro;
 
 @Repository
 public interface LivroRepository extends JpaRepository<Livro, Integer>{
-	
+	Livro findByIsbn(String isbn);
 }

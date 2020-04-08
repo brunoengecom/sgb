@@ -1,13 +1,13 @@
 package com.sgb.server.domain.enums;
 
-public enum EnumMultas {
+public enum EnumTipoMulta {
 
-	MATUTINO(1, "Matutino"), VESPERTINO(2, "Vespertino"),NOTURNO(3,"Noturno");
+	ATRASO(1, "Atraso de Devolução"), DANOS(2, "Danos"),PERCA(3,"Perca");
 
 	private Integer id;
 	private String descricao;
 
-	private EnumMultas(Integer id, String descricao) {
+	private EnumTipoMulta(Integer id, String descricao) {
 		this.id = id;
 		this.descricao = descricao;
 	}
@@ -28,11 +28,11 @@ public enum EnumMultas {
 		this.descricao = descricao;
 	}
 
-	public static EnumMultas toEnum(Integer id) {
+	public static EnumTipoMulta toEnum(Integer id) {
 		if (id == null) {
 			return null;
 		}
-		for (EnumMultas roles : EnumMultas.values()) {
+		for (EnumTipoMulta roles : EnumTipoMulta.values()) {
 			if (id.equals(roles.getId())) {
 				return roles;
 			}

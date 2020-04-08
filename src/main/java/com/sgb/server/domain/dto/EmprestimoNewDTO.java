@@ -19,6 +19,8 @@ public class EmprestimoNewDTO implements Serializable {
 	@NotNull(message = "Preencha o campo Usuario")
 	private Integer usuario;
 	
+	
+	
 	public String getPatrimonio() {
 		return patrimonio;
 	}
@@ -31,5 +33,6 @@ public class EmprestimoNewDTO implements Serializable {
 	public void setUsuario(Integer usuario) {
 		this.usuario = usuario;
 	}
+	
 		
 }

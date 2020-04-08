@@ -76,11 +76,15 @@ public class LivroService {
 		livro.setIsbn(livroNewDTO.getIsbn());
 		livro.setEditora(editora);
 		livro.setAreaConhecimento(areaDeConhecimento);
+		livro.setValor(livroNewDTO.getValor());
 		return livro;
 	}
 	public Page<Livro> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
 		return repository.findAll(pageRequest);		
+	}
+	public Livro findByIsbn(String isbn) {
+		return repository.findByIsbn(isbn);
 	}
 
 }

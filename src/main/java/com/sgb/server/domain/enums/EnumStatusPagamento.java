@@ -2,7 +2,7 @@ package com.sgb.server.domain.enums;
 
 public enum EnumStatusPagamento {
 
-	ATIVO(1, "Ativo"), INATIVO(2, "Inativo");
+	PEDENTE(1, "Pendente"), PAGO(2, "Pago"),CANCELADO(3,"Cancelado");
 
 	private Integer id;
 	private String status;
