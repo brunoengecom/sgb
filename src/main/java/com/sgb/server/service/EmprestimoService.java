@@ -19,6 +19,7 @@ import com.sgb.server.domain.Multa;
 import com.sgb.server.domain.Patrimonio;
 import com.sgb.server.domain.PrazoEmprestimo;
 import com.sgb.server.domain.Usuario;
+import com.sgb.server.domain.ValorPorDia;
 import com.sgb.server.domain.enums.EnumRoles;
 import com.sgb.server.domain.enums.EnumStatus;
 import com.sgb.server.domain.enums.EnumStatusPagamento;
@@ -131,11 +132,11 @@ public class EmprestimoService {
 		return true;
 	}
 
-	public void devolucao(Emprestimo emprestimo) {
+	public Emprestimo devolucao(Emprestimo emprestimo) {
 		Patrimonio patrimonio = patrimonioService.findByNumero(emprestimo.getPatrimonio().getNumero());
 		List<Emprestimo> p = repository.isEmprestimoAtivo(patrimonio.getId());
+		List<Multa> multas = emprestimo.getMultas();
 		emprestimo = p.get(0);
-
 		UserSS user = UserService.authenticated();
 		if (user != null) {
 			try {
@@ -152,20 +153,25 @@ public class EmprestimoService {
 
 		emprestimo.setDevolucao(new Date());
 
-		repository.save(emprestimo);
 		Calendar diaDevolucao = Calendar.getInstance();
 		Calendar diaLimite = Calendar.getInstance();
 		diaDevolucao.setTime(emprestimo.getDevolucao());
 		diaLimite.setTime(emprestimo.getAquisicao());
 		diaLimite.add(Calendar.DATE, emprestimo.getPrazoEmprestimo().getPrazo());
-
+		ValorPorDia valorPorDia = valorPorDiaService.getValorAtual();
+		if(multas != null && !multas.isEmpty()) {
+			for (Multa multa : multas) {
+				multa.setEmprestimo(emprestimo);
+				emprestimo.addMulta(multa);
+			}
+		}
 		if (diaDevolucao.after(diaLimite)) {
 			emprestimo.getMultas().add(new Multa(null, EnumStatusPagamento.PEDENTE, emprestimo, null,
-					EnumTipoMulta.ATRASO, valorPorDiaService.getValorAtual()));
+					EnumTipoMulta.ATRASO, valorPorDia));
 		}
-		if (emprestimo.getMultas() != null && !emprestimo.getMultas().isEmpty()) {
-			multaService.save(emprestimo.getMultas());
-		}
+
+		repository.save(emprestimo);
+		return emprestimo;
 
 	}
 

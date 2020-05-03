@@ -2,6 +2,8 @@ package com.sgb.server.resource;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.sgb.server.domain.Livro;
 import com.sgb.server.domain.Patrimonio;
+import com.sgb.server.dto.PatrimonioNewDTO;
 import com.sgb.server.service.PatrimonioService;
 
 @RestController
@@ -41,7 +45,13 @@ public class PatrimonioResource {
 	
 	@RequestMapping(method = RequestMethod.POST)
 //	@requestBody exige que no corpo da requisição tenha um objeto do tipo do parametro
-	public ResponseEntity<Void> save(@RequestBody Patrimonio patrimonio) {
+	public ResponseEntity<Void> save(@RequestBody @Valid PatrimonioNewDTO dto) {
+		Patrimonio patrimonio = new Patrimonio();
+		Livro livro = new Livro();
+		livro.setId(dto.getLivro());
+		
+		patrimonio.setNumero(dto.getNumero());
+		patrimonio.setLivro(livro);
 		service.save(patrimonio);
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/patrimonio/{id}").buildAndExpand(patrimonio.getId()).toUri();
 		return ResponseEntity.created(uri).build();

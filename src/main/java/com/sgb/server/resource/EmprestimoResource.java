@@ -1,7 +1,7 @@
 package com.sgb.server.resource;
 
 import java.net.URI;
-import java.util.Set;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -67,14 +67,14 @@ public class EmprestimoResource {
 		return ResponseEntity.created(uri).build();
 	}
 	@RequestMapping(method = RequestMethod.POST,value = "/devolucao")
-	public ResponseEntity<Set<Multa>> devolucao(@Valid @RequestBody DevolucaoNewDTO dto) {
+	public ResponseEntity<List<Multa>> devolucao(@Valid @RequestBody DevolucaoNewDTO dto) {
 		Emprestimo emprestimo = new Emprestimo();
 		Patrimonio patrimonio = new Patrimonio();
 		patrimonio.setNumero(dto.getPatrimonio());
 		emprestimo.setPatrimonio(patrimonio);
 		emprestimo.setMultas(dto.getMultas());
 		
-		service.devolucao(emprestimo);
+		emprestimo = service.devolucao(emprestimo);
 		return ResponseEntity.ok().body(emprestimo.getMultas());
 	}
 	

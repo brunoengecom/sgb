@@ -31,6 +31,7 @@ public class Patrimonio implements Serializable {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "patrimonio")
+	
 	private Set<Emprestimo> emprestimos = new HashSet<Emprestimo>();
 	
 	public Integer getId() {

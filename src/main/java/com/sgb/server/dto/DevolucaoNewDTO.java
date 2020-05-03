@@ -1,6 +1,6 @@
 package com.sgb.server.dto;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -13,7 +13,7 @@ public class DevolucaoNewDTO {
 	@NotNull(message = "Preencha o campo Patrimonio")
 	@NotEmpty(message = "Preencha o campo Patrimonio")
 	private String patrimonio;
-	private Set<Multa> multas;
+	private List<Multa> multas;
 
 	public String getPatrimonio() {
 		return patrimonio;
@@ -23,11 +23,13 @@ public class DevolucaoNewDTO {
 		this.patrimonio = patrimonio;
 	}
 
-	public Set<Multa> getMultas() {
+	public List<Multa> getMultas() {
 		return multas;
 	}
 
-	public void setMultas(Set<Multa> multas) {
+	public void setMultas(List<Multa> multas) {
 		this.multas = multas;
 	}
+
+	
 }

@@ -31,6 +31,7 @@ public class Multa implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "valorPorDia_id")
 	private ValorPorDia valorPorDia;
+	private Double valor;
 
 	public Multa() {
 		// TODO Auto-generated constructor stub
@@ -92,5 +93,13 @@ public class Multa implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Double getValor() {
+		return valor;
+	}
+
+	public void setValor(Double valor) {
+		this.valor = valor;
 	}
 }

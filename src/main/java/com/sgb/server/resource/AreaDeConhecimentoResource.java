@@ -45,7 +45,7 @@ public class AreaDeConhecimentoResource {
 	@RequestMapping(method = RequestMethod.POST)
 //	@requestBody exige que no corpo da requisição tenha um objeto do tipo do parametro
 	public ResponseEntity<Void> save(@RequestBody AreaDeConhecimento areaDeConhecimento) {
-		service.save(areaDeConhecimento);
+		service.save(areaDeConhecimento);		
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/areaDeConhecimento/{id}").buildAndExpand(areaDeConhecimento.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}

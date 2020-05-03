@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sgb.server.domain.Livro;
 import com.sgb.server.domain.dto.LivroNewDTO;
+import com.sgb.server.dto.LivroDTO;
 import com.sgb.server.service.LivroService;
 
 @RestController
@@ -27,19 +28,20 @@ public class LivroResource {
 	private LivroService service;
 	
 	@RequestMapping(method = RequestMethod.GET,value = "/{idLivro}")
-	public ResponseEntity<Livro> findById(@PathVariable Integer idLivro) {
-		return ResponseEntity.ok().body(service.findById(idLivro));
+	public ResponseEntity<LivroDTO> findById(@PathVariable Integer idLivro) {
+		return ResponseEntity.ok().body(new LivroDTO(service.findById(idLivro)));
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<Page<Livro>>findPage(
+	public ResponseEntity<Page<LivroDTO>>findPage(
 			@RequestParam(value = "page",defaultValue = "0")Integer page,
 			@RequestParam(value = "linesPerPage",defaultValue = "15")Integer linesPerPage,
 			@RequestParam(value = "orderBy",defaultValue = "nome")String orderBy,
 			@RequestParam(value = "direction",defaultValue = "ASC")String direction){
-		
+	
 		Page<Livro> list = service.findPage(page,linesPerPage,orderBy,direction);
-		return ResponseEntity.ok().body(list);
+		Page<LivroDTO> dto = list.map(obj -> new LivroDTO(obj));
+		return ResponseEntity.ok().body(dto);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)

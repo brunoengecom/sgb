@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		"/auth/forgot"
 	};
 	public static final String[] PUBLIC_MATCHERS = {
-			"/test"
+			
 		};
 	
 

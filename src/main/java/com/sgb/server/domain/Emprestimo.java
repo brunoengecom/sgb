@@ -1,10 +1,11 @@
 package com.sgb.server.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,9 +25,11 @@ public class Emprestimo implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date aquisicao;
+
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date devolucao;
@@ -51,8 +54,8 @@ public class Emprestimo implements Serializable {
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 
-	@OneToMany(mappedBy = "emprestimo")
-	private Set<Multa> multas = new HashSet<>();
+	@OneToMany(mappedBy = "emprestimo",cascade = CascadeType.ALL)
+	private List<Multa> multas = new ArrayList<Multa>();
 
 	public Bibliotecario getBibliotecarioDevolucao() {
 		return bibliotecarioDevolucao;
@@ -110,20 +113,23 @@ public class Emprestimo implements Serializable {
 		this.patrimonio = patrimonio;
 	}
 
-	public Set<Multa> getMultas() {
-		return multas;
-	}
-
-	public void setMultas(Set<Multa> multas) {
-		this.multas = multas;
-	}
-
 	public PrazoEmprestimo getPrazoEmprestimo() {
 		return prazoEmprestimo;
 	}
 
 	public void setPrazoEmprestimo(PrazoEmprestimo prazoEmprestimo) {
 		this.prazoEmprestimo = prazoEmprestimo;
+	}
+
+	public List<Multa> getMultas() {
+		return multas;
+	}
+
+	public void setMultas(List<Multa> multas) {
+		this.multas = multas;
+	}
+	public void addMulta(Multa multa) {
+		this.multas.add(multa);
 	}
 
 }

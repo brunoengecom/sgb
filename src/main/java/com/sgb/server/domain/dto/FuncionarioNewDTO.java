@@ -3,6 +3,7 @@ package com.sgb.server.domain.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -21,6 +22,7 @@ public class FuncionarioNewDTO implements Serializable{
 	private String nome;
 	@NotEmpty
 	@NotNull
+	@Email
 	private String email;
 	@NotNull
 	@JsonFormat(pattern = "yyyy-MM-dd")
@@ -29,13 +31,8 @@ public class FuncionarioNewDTO implements Serializable{
 	@NotNull
 	@CPF
 	private String cpf;
-	@NotEmpty
 	@NotNull
 	private EnumStatus status;
-	@NotNull
-	private Integer turma;
-	@NotNull
-	private Integer matricula;
 	@NotNull
 	private String senha;
 	@NotNull
@@ -52,12 +49,6 @@ public class FuncionarioNewDTO implements Serializable{
 	}
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
-	}
-	public Integer getTurma() {
-		return turma;
-	}
-	public void setTurma(Integer turma) {
-		this.turma = turma;
 	}
 	public String getNome() {
 		return nome;
@@ -89,12 +80,7 @@ public class FuncionarioNewDTO implements Serializable{
 	public void setStatus(EnumStatus status) {
 		this.status = status;
 	}
-	public Integer getMatricula() {
-		return matricula;
-	}
-	public void setMatricula(Integer matricula) {
-		this.matricula = matricula;
-	}
+	
 
 	
 

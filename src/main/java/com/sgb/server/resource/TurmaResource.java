@@ -1,6 +1,7 @@
 package com.sgb.server.resource;
 
 import java.net.URI;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.sgb.server.domain.Turma;
 import com.sgb.server.domain.dto.TurmaEditDTO;
 import com.sgb.server.domain.dto.TurmaNewDTO;
+import com.sgb.server.domain.enums.EnumPeriodo;
 import com.sgb.server.service.TurmaService;
 
 @RestController
@@ -30,6 +32,11 @@ public class TurmaResource {
 	@RequestMapping(method = RequestMethod.GET,value = "/{idTurma}")
 	public ResponseEntity<Turma> findById(@PathVariable Integer idTurma) {
 		return ResponseEntity.ok().body(service.findById(idTurma));
+	}
+	
+	@RequestMapping(method = RequestMethod.GET,value = "/periodo")
+	public ResponseEntity<EnumPeriodo[]> findPeriodos(){
+		return ResponseEntity.ok().body(EnumPeriodo.values());
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
