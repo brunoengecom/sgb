@@ -32,6 +32,16 @@ public class LivroResource {
 		return ResponseEntity.ok().body(new LivroDTO(service.findById(idLivro)));
 	}
 	
+	@RequestMapping(method = RequestMethod.GET,value = "/{id}/areaDeConhecimento")
+	public ResponseEntity<Page<LivroDTO>> findByAreaDeConhecimento(@PathVariable Integer id, @RequestParam(value = "page",defaultValue = "0")Integer page,
+			@RequestParam(value = "linesPerPage",defaultValue = "15")Integer linesPerPage,
+			@RequestParam(value = "orderBy",defaultValue = "nome")String orderBy,
+			@RequestParam(value = "direction",defaultValue = "ASC")String direction) {
+		Page<Livro> list = service.findByAreaDeConhecimento(id,page,linesPerPage,orderBy,direction);
+		Page<LivroDTO> dto = list.map(obj->new LivroDTO(obj));
+		return ResponseEntity.ok().body(dto);
+	}
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Page<LivroDTO>>findPage(
 			@RequestParam(value = "page",defaultValue = "0")Integer page,

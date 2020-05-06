@@ -1,6 +1,7 @@
 package com.sgb.server.resource;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sgb.server.domain.AreaDeConhecimento;
+import com.sgb.server.domain.Editora;
 import com.sgb.server.service.AreaDeConhecimentoService;
 
 @RestController
@@ -41,6 +43,10 @@ public class AreaDeConhecimentoResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@RequestMapping(method = RequestMethod.GET,value = "/all")
+	public ResponseEntity<List<AreaDeConhecimento>> findAll(){
+		return ResponseEntity.ok().body(service.findAll());
+	}
 //	Role BIBLIOTECARIA
 	@RequestMapping(method = RequestMethod.POST)
 //	@requestBody exige que no corpo da requisição tenha um objeto do tipo do parametro

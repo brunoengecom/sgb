@@ -1,6 +1,7 @@
 package com.sgb.server.resource;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,11 @@ public class EditoraResource {
 	@RequestMapping(method = RequestMethod.GET,value = "/{id}")
 	public ResponseEntity<Editora> findById(@PathVariable Integer id) {
 		return ResponseEntity.ok().body(service.findById(id));
+	}
+	
+	@RequestMapping(method = RequestMethod.GET,value = "/all")
+	public ResponseEntity<List<Editora>> findAll(){
+		return ResponseEntity.ok().body(service.findAll());
 	}
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Page<Editora>>findPage(

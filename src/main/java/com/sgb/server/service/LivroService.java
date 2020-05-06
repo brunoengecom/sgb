@@ -23,6 +23,8 @@ public class LivroService {
 // autowired cria um objeto quando a classe e chamada
 	@Autowired
 	private LivroRepository repository;
+	@Autowired
+	private AreaDeConhecimentoService areaDeConhecimentoService;
 
 	public List<Livro> findAll() {
 		return repository.findAll();
@@ -85,6 +87,13 @@ public class LivroService {
 	}
 	public Livro findByIsbn(String isbn) {
 		return repository.findByIsbn(isbn);
+	}
+
+	public Page<Livro> findByAreaDeConhecimento(Integer id, Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
+		AreaDeConhecimento areaDeConhecimento = areaDeConhecimentoService.findById(id);
+		return repository.findByAreaDeConhecimento(areaDeConhecimento,pageRequest);
+		
 	}
 
 }
