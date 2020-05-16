@@ -93,7 +93,7 @@ public class UsuarioService {
 		}
 	}
 	
-	private Usuario findByCpf(String cpf) {
+	public Usuario findByCpf(String cpf) {
 		
 		return repository.findByCpf(cpf);
 	}

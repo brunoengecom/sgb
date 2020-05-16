@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.sgb.server.domain.Multa;
+import com.sgb.server.domain.enums.EnumStatusPagamento;
 import com.sgb.server.repository.MultaRepository;
 import com.sgb.server.sevice.exception.ObjectNotFoundException;
 
@@ -56,7 +57,12 @@ public class MultaService {
 	}
 
 	public Page<Multa> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
-		return repository.findAll(pageRequest);		
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repository.findAll(pageRequest);
+	}
+
+	public List<Multa> findByMultasAtivas(Integer usuario) {
+
+		return repository.findByMultasUsuario(usuario, EnumStatusPagamento.PEDENTE.getId());
 	}
 }

@@ -186,4 +186,8 @@ public class EmprestimoService {
 		return repository.countByUsuarioAndDevolucaoIsNull(u);
 	}
 
+	
+
+	
+
 }

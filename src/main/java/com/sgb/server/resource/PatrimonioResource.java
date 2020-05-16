@@ -32,6 +32,12 @@ public class PatrimonioResource {
 	public ResponseEntity<Patrimonio> findById(@PathVariable Integer id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
+	
+	@RequestMapping(method = RequestMethod.GET,value = "/numero/{numero}")
+	public ResponseEntity<Patrimonio> findByNumero(@PathVariable String numero) {
+		return ResponseEntity.ok().body(service.findByNumero(numero));
+	}
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Page<Patrimonio>>findPage(
 			@RequestParam(value = "page",defaultValue = "0")Integer page,
