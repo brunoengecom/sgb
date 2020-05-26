@@ -5,12 +5,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sgb.server.domain.Bibliotecario;
 import com.sgb.server.domain.Emprestimo;
@@ -48,6 +54,10 @@ public class EmprestimoService {
 	private MultaService multaService;
 	@Autowired
 	private ValorPorDiaService valorPorDiaService;
+	@Autowired 
+	private JavaMailSender mailSender;
+	
+	
 
 	public List<Emprestimo> findAll() {
 		return repository.findAll();
@@ -109,7 +119,10 @@ public class EmprestimoService {
 		}
 
 		repository.save(emprestimo);
-
+		
+		String ret = this.sendMail(emprestimo);
+		System.out.println(ret);
+		
 	}
 
 	public void delete(Integer id) {
@@ -186,7 +199,24 @@ public class EmprestimoService {
 		return repository.countByUsuarioAndDevolucaoIsNull(u);
 	}
 
-	
+	private String sendMail(Emprestimo emprestimo) {
+        try {
+            MimeMessage mail = mailSender.createMimeMessage();
+
+            MimeMessageHelper helper = new MimeMessageHelper( mail );
+            helper.setTo( emprestimo.getUsuario().getEmail() );
+            helper.setSubject( "Emprestimo Biblioteca SGB" );
+            helper.setText("<p>Usuario:"+emprestimo.getUsuario().getNome()+"</p>"
+            			+ "<p>Livro: "+emprestimo.getPatrimonio().getLivro().getNome()+"</p>"
+            			+ "<p>patrimonio:"+emprestimo.getPatrimonio().getNumero()+"</p>", true);
+            mailSender.send(mail);
+
+            return "OK";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Erro ao enviar e-mail";
+        }
+    }
 
 	
 

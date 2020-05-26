@@ -82,7 +82,6 @@ public class UsuarioResource {
 		List<EnumRoles> enumRoles = new ArrayList<EnumRoles>();
 		enumRoles.add(EnumRoles.ALUNO);
 		enumRoles.add(EnumRoles.FUNCIONARIO);
-		enumRoles.add(EnumRoles.BIBLIOTECARIO);
 		
 		return ResponseEntity.ok().body(enumRoles);
 	}

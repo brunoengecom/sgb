@@ -15,6 +15,7 @@ import com.sgb.server.domain.Usuario;
 import com.sgb.server.domain.dto.AlunoNewDTO;
 import com.sgb.server.domain.dto.FuncionarioNewDTO;
 import com.sgb.server.domain.enums.EnumRoles;
+import com.sgb.server.domain.enums.EnumStatus;
 import com.sgb.server.repository.UsuarioRepository;
 import com.sgb.server.sevice.exception.DataIntegrityViolationException;
 import com.sgb.server.sevice.exception.ObjectNotFoundException;
@@ -47,7 +48,7 @@ public class UsuarioService {
 		usuario.setEmail(dto.getEmail());
 		usuario.setDataNasc(dto.getDataNasc());
 		usuario.setCpf(dto.getCpf());
-		usuario.setMatriculas(Set.of(matricula));
+		//usuario.setMatriculas(Set.of(matricula));
 		return usuario;
 	}
 	
@@ -58,7 +59,7 @@ public class UsuarioService {
 		usuario.setDataNasc(dto.getDataNasc());
 		usuario.setCpf(dto.getCpf());
 		usuario.setCargo(dto.getCargo());
-		usuario.setStatus(dto.getStatus());
+		usuario.setStatus(EnumStatus.ATIVO);
 		return usuario;
 	}
 
