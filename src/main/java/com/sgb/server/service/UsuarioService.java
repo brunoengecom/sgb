@@ -1,5 +1,6 @@
 package com.sgb.server.service;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -24,11 +25,17 @@ import com.sgb.server.sevice.exception.ObjectNotFoundException;
 public class UsuarioService {
 	@Autowired
 	private UsuarioRepository repository;
+	@Autowired
+	private MatriculaService matriculaService;
 	
 	public Usuario findById(Integer id) {
 		Optional<Usuario> oUsuario = repository.findById(id);
 		return oUsuario.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado! id: " + id)); // orELSEThrow
 		
+	}
+	
+	public Usuario findByEmail(String email) {
+		return repository.findByEmail(email);
 	}
 
 	public Page<Usuario> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
@@ -41,6 +48,7 @@ public class UsuarioService {
 		Turma turma = new Turma();
 		Matricula matricula = new Matricula();
 		matricula.setNumero(dto.getMatricula());
+		turma.setId(dto.getTurma());
 		matricula.setTurma(turma);
 		
 		turma.setId(dto.getTurma());
@@ -48,7 +56,7 @@ public class UsuarioService {
 		usuario.setEmail(dto.getEmail());
 		usuario.setDataNasc(dto.getDataNasc());
 		usuario.setCpf(dto.getCpf());
-		//usuario.setMatriculas(Set.of(matricula));
+		usuario.addMatricula(matricula);
 		return usuario;
 	}
 	
@@ -70,6 +78,7 @@ public class UsuarioService {
 	
 	public void saveAluno(Usuario usuario) {
 		Usuario u = this.findByCpf(usuario.getCpf());
+		
 		if(u != null) {
 			if(u.getRoles().contains(EnumRoles.ALUNO)) {
 				throw new DataIntegrityViolationException("Este Aluno já está cadastrado no Sistema");
@@ -78,7 +87,17 @@ public class UsuarioService {
 			this.update(usuario);
 		}else {
 			this.save(usuario);
+			
 		}
+		Set<Matricula> matriculas = new HashSet<>();
+		
+		for (Matricula matricula : usuario.getMatriculas()) {
+			matricula.setUsuario(usuario);
+			
+			matriculas.add(matricula);
+		}
+		
+		this.matriculaService.save(matriculas);
 	}
 	
 	public void saveFuncionario(Usuario usuario) {

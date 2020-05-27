@@ -9,5 +9,6 @@ import com.sgb.server.domain.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 
 	Usuario findByCpf(String cpf);
+	Usuario findByEmail(String email);
 	
 }

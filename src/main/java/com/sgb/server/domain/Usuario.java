@@ -134,5 +134,8 @@ public class Usuario implements Serializable {
 	public void setMatriculas(Set<Matricula> matriculas) {
 		this.matriculas = matriculas;
 	}
+	public void addMatricula(Matricula matricula) {
+		this.matriculas.add(matricula);
+	}
 
 }

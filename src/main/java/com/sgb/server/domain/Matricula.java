@@ -37,5 +37,7 @@ public class Matricula implements Serializable {
 	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
+	
+	
 
 }

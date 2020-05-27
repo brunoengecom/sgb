@@ -7,5 +7,7 @@ import com.sgb.server.domain.Turma;
 
 @Repository
 public interface TurmaRepository extends JpaRepository<Turma, Integer>{
+
+	Turma findByTurma(Integer turma);
 	
 }

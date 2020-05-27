@@ -11,7 +11,7 @@ public class MatriculaPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne
-	@JoinColumn(name = "aluno_id")
+	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 
 	@ManyToOne

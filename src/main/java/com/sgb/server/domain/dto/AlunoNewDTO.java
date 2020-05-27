@@ -11,7 +11,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+import com.sgb.server.sevice.validation.AlunoInsert;
+@AlunoInsert
 public class AlunoNewDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
