@@ -1,8 +1,8 @@
 package com.sgb.server.domain.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -31,13 +31,13 @@ public class LivroNewDTO implements Serializable {
 	private Integer areaDeConhecimento;
 
 	@NotEmpty(message = "Preenchimento Obrigatório")
-	private List<String> autores = new ArrayList<>();
+	private Set<String> autores = new HashSet<>();
 
-	public List<String> getAutores() {
+	public Set<String> getAutores() {
 		return autores;
 	}
 
-	public void setAutores(List<String> autores) {
+	public void setAutores(Set<String> autores) {
 		this.autores = autores;
 	}
 

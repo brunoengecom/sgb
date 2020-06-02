@@ -38,9 +38,7 @@ public class TurmaService {
 		return oTurma.orElseThrow(() -> new ObjectNotFoundException("Turma não encontrado! id: " + idTurma)); // orELSEThrow
 																												// retorna
 	}
-	public Turma findByTurma(Integer turma) {
-		return repository.findByTurma(turma);
-	}
+	
 
 	public void save(Turma turma) {
 		turma.setId(null);

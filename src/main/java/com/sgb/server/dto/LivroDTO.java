@@ -1,7 +1,7 @@
 package com.sgb.server.dto;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import com.sgb.server.domain.AreaDeConhecimento;
 import com.sgb.server.domain.Editora;
@@ -17,7 +17,7 @@ public class LivroDTO implements Serializable{
 	private String isbn;
 	private Editora editora;
 	private AreaDeConhecimento AreaDeConhecimento;
-	private List<String> autores;
+	private Set<String> autores;
 	
 	public LivroDTO(Livro obj) {
 		this.id = obj.getId();
@@ -71,10 +71,10 @@ public class LivroDTO implements Serializable{
 	public void setAreaDeConhecimento(AreaDeConhecimento areaDeConhecimento) {
 		AreaDeConhecimento = areaDeConhecimento;
 	}
-	public List<String> getAutores() {
+	public Set<String> getAutores() {
 		return autores;
 	}
-	public void setAutores(List<String> autores) {
+	public void setAutores(Set<String> autores) {
 		this.autores = autores;
 	}
 	

@@ -34,6 +34,7 @@ public class UsuarioService {
 		
 	}
 	
+	
 	public Usuario findByEmail(String email) {
 		return repository.findByEmail(email);
 	}
@@ -78,12 +79,14 @@ public class UsuarioService {
 	
 	public void saveAluno(Usuario usuario) {
 		Usuario u = this.findByCpf(usuario.getCpf());
+		Usuario us = this.findByEmail(usuario.getEmail());
 		
-		if(u != null) {
-			if(u.getRoles().contains(EnumRoles.ALUNO)) {
+		if(u != null || us != null) {
+			if((u != null && u.getRoles().contains(EnumRoles.ALUNO) )|| (us != null && us.getRoles().contains(EnumRoles.ALUNO))) {
 				throw new DataIntegrityViolationException("Este Aluno já está cadastrado no Sistema");
 			}
-			usuario.setId(u.getId());
+			
+			usuario.setId(u != null ? u.getId() : us.getId());
 			this.update(usuario);
 		}else {
 			this.save(usuario);
@@ -102,11 +105,13 @@ public class UsuarioService {
 	
 	public void saveFuncionario(Usuario usuario) {
 		Usuario u = this.findByCpf(usuario.getCpf());
-		if(u != null) {
-			if(u.getRoles().contains(EnumRoles.FUNCIONARIO)) {
+		Usuario us = this.findByEmail(usuario.getEmail());
+		
+		if(u != null || us != null) {
+			if((u != null && u.getRoles().contains(EnumRoles.FUNCIONARIO) )|| (us != null && us.getRoles().contains(EnumRoles.FUNCIONARIO))) {
 				throw new DataIntegrityViolationException("Este Funcionario já está cadastrado no Sistema");
 			}
-			usuario.setId(u.getId());
+			usuario.setId(u != null ? u.getId() : us.getId());
 			this.update(usuario);
 		}else {
 			this.save(usuario);

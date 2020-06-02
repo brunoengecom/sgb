@@ -64,7 +64,8 @@ public class LivroResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT,value = "/{idLivro}")
-	public void update(@RequestBody Livro livro,@PathVariable Integer idLivro) {
+	public void update(@RequestBody LivroNewDTO dto,@PathVariable Integer idLivro) {
+		Livro livro = service.dtoFromLivro(dto);
 		livro.setId(idLivro);
 		service.update(livro);
 	}

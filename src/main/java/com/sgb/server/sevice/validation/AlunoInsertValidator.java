@@ -17,11 +17,14 @@ import com.sgb.server.service.MatriculaService;
 import com.sgb.server.service.TurmaService;
 import com.sgb.server.service.UsuarioService;
 import com.sgb.server.sevice.exception.FieldMessage;
+import com.sgb.server.sevice.exception.ObjectNotFoundException;
 
 public class AlunoInsertValidator implements ConstraintValidator<AlunoInsert, AlunoNewDTO> {
 	@Autowired
 	private UsuarioService usuarioService;
+	@Autowired
 	private TurmaService turmaService;
+	@Autowired
 	private MatriculaService matriculaService;
 
 	@Override
@@ -30,31 +33,29 @@ public class AlunoInsertValidator implements ConstraintValidator<AlunoInsert, Al
 		Usuario usuario = new Usuario();
 		Turma turma = new Turma();
 		Matricula matricula = new Matricula();
-		
+
 		usuario = usuarioService.findByCpf(value.getCpf());
 		if (usuario != null && usuario.getRoles().contains(EnumRoles.ALUNO)) {
 			list.add(new FieldMessage("cpf", "Este CPF já está cadastrado como Aluno!"));
 		}
-		
-		usuario = usuarioService.findByEmail(value.getEmail());		
-		if(usuario != null && usuario.getRoles().contains(EnumRoles.ALUNO)) {
-			list.add(new FieldMessage("email","Este Email já está cadastro!"));
+
+		usuario = usuarioService.findByEmail(value.getEmail());
+		if (usuario != null && usuario.getRoles().contains(EnumRoles.ALUNO)) {
+			list.add(new FieldMessage("email", "Este Email já está cadastro!"));
 		}
-			//????? Tenha que saber se a turma NÂO foi cadastrada
-		turma = turmaService.findByTurma(value.getTurma());
-		if(usuario != null && usuario.getRoles().contains(EnumRoles.ALUNO)) {
+
+		try {
+			turma = turmaService.findById(value.getTurma());
+
+		} catch (ObjectNotFoundException e) {
 			list.add(new FieldMessage("turma", "Esta Turma não está cadastrada!"));
 		}
-		
-		matricula = matriculaService.findByMatricula(value.getMatricula());
-			if(usuario != null && usuario.getRoles().contains(EnumRoles.ALUNO)) {
-				list.add(new FieldMessage("matricula", "Esta Matricula já está cadastrada!"));
+
+		matricula = matriculaService.findByNumero(value.getMatricula());
+		if (usuario != null && usuario.getRoles().contains(EnumRoles.ALUNO)) {
+			list.add(new FieldMessage("matricula", "Esta Matricula já está cadastrada!"));
 		}
-		
-		//????
-		//-->FUNCIONARIOInsert
-		
-		
+
 		for (FieldMessage e : list) {
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getFieldName())

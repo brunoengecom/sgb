@@ -7,5 +7,9 @@ import com.sgb.server.domain.Editora;
 
 @Repository
 public interface EditoraRepository extends JpaRepository<Editora, Integer>{
+
+	Editora findByNome(String nome);
+
+	Editora findByCnpj(String cnpj);
 	
 }

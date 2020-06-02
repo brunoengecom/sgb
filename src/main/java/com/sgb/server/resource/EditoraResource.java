@@ -3,6 +3,8 @@ package com.sgb.server.resource;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sgb.server.domain.Editora;
+import com.sgb.server.domain.dto.EditoraNewDTO;
 import com.sgb.server.service.EditoraService;
 
 @RestController
@@ -46,7 +49,8 @@ public class EditoraResource {
 	
 	@RequestMapping(method = RequestMethod.POST)
 //	@requestBody exige que no corpo da requisição tenha um objeto do tipo do parametro
-	public ResponseEntity<Void> save(@RequestBody Editora editora) {
+	public ResponseEntity<Void> save(@Valid @RequestBody EditoraNewDTO dto) {
+		Editora editora = service.dtoFromObject(dto);
 		service.save(editora);
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/editora/{id}").buildAndExpand(editora.getId()).toUri();
 		return ResponseEntity.created(uri).build();

@@ -1,5 +1,6 @@
 package com.sgb.server.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,24 +13,21 @@ import com.sgb.server.repository.MatriculaRepository;
 public class MatriculaService {
 	@Autowired
 	private MatriculaRepository repository;
-	
-//	public void save(Set<Matricula> matriculas) {
-//		for (Matricula matricula : matriculas) {
-//			System.out.println(matricula);
-//			this.save(matricula);
-//		}
-//	}
 
 	public void save(Set<Matricula> matriculas) {
-		System.out.println(matriculas);
 		repository.saveAll(matriculas);
 	}
 	
 	public void save(Matricula matricula) {
 		repository.save(matricula);
 	}
-	public Matricula findByMatricula(Integer matricula) {
+
+	public Matricula findByNumero(Integer numero) {
+		List<Matricula> matricula = repository.findByNumero(numero);
 		
-		return repository.findByMatricula(matricula);
+	return matricula == null || matricula.isEmpty()?  null :  matricula.get(0);
 	}
+	
+	
+	
 }

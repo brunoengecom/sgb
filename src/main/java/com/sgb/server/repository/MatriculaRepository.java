@@ -8,10 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.sgb.server.domain.Matricula;
 
 @Repository
-public interface MatriculaRepository extends JpaRepository<Matricula, Integer>{
-	
-	List<Matricula> findByNumero(String numero);
+public interface MatriculaRepository extends JpaRepository<Matricula, Integer> {
 
-	Matricula findByMatricula(Integer matricula);
-	
+	List<Matricula> findByNumero(Integer numero);
+
 }

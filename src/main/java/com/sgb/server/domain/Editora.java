@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,12 +20,24 @@ public class Editora implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	@Column(unique = true)
 	private String cnpj;
 	
 //	hashSet inicializa a lista para adicionar itens
 	@OneToMany(mappedBy = "editora")
 	@JsonIgnore
 	private Set<Livro> livros = new HashSet<>();
+
+	public Editora() {
+	}
+	
+	
+	public Editora(String nome, String cnpj) {
+		super();
+		this.nome = nome;
+		this.cnpj = cnpj;
+	}
+
 
 	public Integer getId() {
 		return id;

@@ -56,6 +56,7 @@ public class LivroService {
 		ant.setEdicao(livro.getEdicao() == null ? ant.getEdicao() : livro.getEdicao());
 		ant.setNome(livro.getNome() == null ? ant.getNome() : livro.getNome());
 		ant.setEditora(livro.getEditora() == null || livro.getEditora().getId() == null ? ant.getEditora() : livro.getEditora());
+		ant.setAutores(livro.getAutores() == null || livro.getAutores() == null ? ant.getAutores() : livro.getAutores());
 	}
 
 	public void delete(Integer id) {

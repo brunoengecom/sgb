@@ -1,9 +1,7 @@
 package com.sgb.server.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -50,13 +48,13 @@ public class Livro implements Serializable {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "autor")
-	private List<String> autores = new ArrayList<>();
+	private Set<String> autores = new HashSet<>();
 
-	public List<String> getAutores() {
+	public Set<String> getAutores() {
 		return autores;
 	}
 
-	public void setAutores(List<String> autores) {
+	public void setAutores(Set<String> autores) {
 		this.autores = autores;
 	}
 

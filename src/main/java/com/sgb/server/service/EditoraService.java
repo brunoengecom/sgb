@@ -3,6 +3,8 @@ package com.sgb.server.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.sgb.server.domain.Editora;
+import com.sgb.server.domain.dto.EditoraNewDTO;
 import com.sgb.server.repository.EditoraRepository;
 import com.sgb.server.sevice.exception.ObjectNotFoundException;
 
@@ -56,6 +59,18 @@ public class EditoraService {
 	public Page<Editora> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
 		return repository.findAll(pageRequest);		
+	}
+
+	public Editora findByNome(String nome) {
+		return repository.findByNome(nome);
+	}
+
+	public Editora findByCnpj(String cnpj) {
+		return repository.findByCnpj(cnpj);
+	}
+
+	public Editora dtoFromObject(@Valid EditoraNewDTO dto) {
+		return new Editora(dto.getNome(),dto.getCnpj());
 	}
 
 }
