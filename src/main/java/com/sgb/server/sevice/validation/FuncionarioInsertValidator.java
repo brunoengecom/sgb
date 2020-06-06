@@ -35,8 +35,8 @@ public class FuncionarioInsertValidator implements ConstraintValidator<Funcionar
 			list.add(new FieldMessage("Email", "Este Email já está cadastro!"));
 		}
 
-		if (dataAtual.after(value.getDataNasc())) {
-			list.add(new FieldMessage("DataNasc", "Data de Nascimento tem que ser Maior que a Data Atual!"));
+		if (dataAtual.before(value.getDataNasc())) {
+			list.add(new FieldMessage("DataNasc", "Data de Nascimento tem que ser Menor que a Data Atual!"));
 		}
 
 		for (FieldMessage e : list) {

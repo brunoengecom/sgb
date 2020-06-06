@@ -34,7 +34,8 @@ public class AlunoNewDTO implements Serializable{
 	@NotNull
 	private Integer turma;
 	@NotNull
-	private Integer matricula;
+	@NotEmpty
+	private String matricula;
 	
 	public Integer getTurma() {
 		return turma;
@@ -66,10 +67,10 @@ public class AlunoNewDTO implements Serializable{
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public Integer getMatricula() {
+	public String getMatricula() {
 		return matricula;
 	}
-	public void setMatricula(Integer matricula) {
+	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
 

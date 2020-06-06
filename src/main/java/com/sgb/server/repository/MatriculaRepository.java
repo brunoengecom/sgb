@@ -10,6 +10,6 @@ import com.sgb.server.domain.Matricula;
 @Repository
 public interface MatriculaRepository extends JpaRepository<Matricula, Integer> {
 
-	List<Matricula> findByNumero(Integer numero);
+	List<Matricula> findByNumero(String numero);
 
 }

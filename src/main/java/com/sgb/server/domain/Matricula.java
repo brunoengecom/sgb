@@ -14,8 +14,8 @@ public class Matricula implements Serializable {
 	@JsonIgnore
 	@EmbeddedId
 	private MatriculaPK id = new MatriculaPK();
-	private Integer numero;
-
+	private String numero;
+	@JsonIgnore
 	public Usuario getUsuario() {
 		return id.getUsuario();
 	}
@@ -30,11 +30,11 @@ public class Matricula implements Serializable {
 		this.id.setTurma(turma);
 	}
 
-	public Integer getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setNumero(Integer numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 	

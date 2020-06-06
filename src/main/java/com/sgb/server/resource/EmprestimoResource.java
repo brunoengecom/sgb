@@ -50,9 +50,22 @@ public class EmprestimoResource {
 		Page<Emprestimo> list = service.findPage(page,linesPerPage,orderBy,direction);
 		return ResponseEntity.ok().body(list);
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/validaLivro/{numeroPatrimonio}")
+	public ResponseEntity<Void> validaLivro(@PathVariable String numeroPatrimonio) {
+		service.validaLivro(numeroPatrimonio);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/ativo/{numeroPatrimonio}")
+	public ResponseEntity<Emprestimo> getEmprestimoAtivoByPatrimonio(@PathVariable String numeroPatrimonio){
+		return ResponseEntity.ok().body(service.getEmprestimoAtivoByPatrimonio(numeroPatrimonio));
+	}
+	
+	
+	
 //	@requestBody exige que no corpo da requisição tenha um objeto do tipo do parametro
 	@RequestMapping(method = RequestMethod.POST)
-	
 	public ResponseEntity<Void> save(@Valid @RequestBody EmprestimoNewDTO dto) {
 		Emprestimo emprestimo = new Emprestimo();
 		Usuario usuario = new Usuario();

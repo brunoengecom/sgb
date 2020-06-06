@@ -22,7 +22,7 @@ public class MatriculaService {
 		repository.save(matricula);
 	}
 
-	public Matricula findByNumero(Integer numero) {
+	public Matricula findByNumero(String numero) {
 		List<Matricula> matricula = repository.findByNumero(numero);
 		
 	return matricula == null || matricula.isEmpty()?  null :  matricula.get(0);

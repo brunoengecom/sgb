@@ -15,8 +15,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sgb.server.domain.Bibliotecario;
 import com.sgb.server.domain.Emprestimo;
@@ -34,6 +32,7 @@ import com.sgb.server.repository.EmprestimoRepository;
 import com.sgb.server.security.UserSS;
 import com.sgb.server.sevice.exception.EmprestimoException;
 import com.sgb.server.sevice.exception.ObjectNotFoundException;
+import com.sgb.server.sevice.exception.ViolationException;
 
 //faz o registro de um componete do spring
 @Service
@@ -218,6 +217,35 @@ public class EmprestimoService {
         }
     }
 
-	
+	public void validaLivro(String numeroPatrimonio) {
+		Patrimonio patrimonio = patrimonioService.findByNumero(numeroPatrimonio);
+		if(patrimonio == null) {
+			throw new ObjectNotFoundException("Numero de patrimônio não encontrado!");
+		}
+		List<Emprestimo> p = repository.isEmprestimoAtivo(patrimonio.getId());
+		
+		 if(!p.isEmpty()) {
+			 throw new ViolationException("Este patrimônio já está emprestado!");
+		 }
+		 
+	}
+
+	public Emprestimo getEmprestimoAtivoByPatrimonio(String numeroPatrimonio) {
+		Patrimonio patrimonio = patrimonioService.findByNumero(numeroPatrimonio);
+		if(patrimonio == null) {
+			throw new ObjectNotFoundException("Numero de patrimônio não encontrado!");
+		}
+		
+		List<Emprestimo> p = repository.isEmprestimoAtivo(patrimonio.getId());
+		
+		if(p.isEmpty()) {
+			 throw new ViolationException("Este patrimônio não está emprestado!");
+		 }
+		
+		return p.get(0); 
+		
+	}
+
+		
 
 }
