@@ -56,6 +56,7 @@ public class EmprestimoService {
 	@Autowired 
 	private JavaMailSender mailSender;
 	
+	private Emprestimo diaDevolucao;
 	
 
 	public List<Emprestimo> findAll() {
@@ -88,6 +89,8 @@ public class EmprestimoService {
 		Patrimonio patrimonio = patrimonioService.findByNumero(emprestimo.getPatrimonio().getNumero());
 		emprestimo.setId(null);
 		emprestimo.setAquisicao(new Date());
+		
+		
 		emprestimo.setUsuario(usuario);
 		emprestimo.setPatrimonio(patrimonio);
 		emprestimo.setDevolucao(null);
